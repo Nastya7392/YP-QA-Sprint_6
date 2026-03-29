@@ -1,0 +1,33 @@
+import allure
+import locators.main_page_locators as locators
+from pages.base_page import BasePage
+
+
+class MainPage(BasePage):
+    @allure.step('Открытие формы заказа по кнопке в верхнем меню сайта')
+    def open_user_info_form_by_header_button(self):
+        self.click_to_element(locators.HEADER_ORDER_BUTTON)
+
+    @allure.step('Открытие формы заказа по кнопке в секции "Как это работает"')
+    def open_user_info_form_by_content_button(self):
+        self.scroll_to_element(locators.SECTION_ORDER_BUTTON)
+        self.click_to_element(locators.SECTION_ORDER_BUTTON)
+
+    @allure.step('Открытие ответа на вопрос по номеру')
+    def open_question_answer(self, num):
+        question_locator = self.format_locator(locators.QUESTION, num)
+        self.scroll_to_element(question_locator)
+        self.click_to_element(question_locator)
+
+    @allure.step('Получение текста ответа по номеру вопроса')
+    def get_answer_text(self, num):
+        answer_locator = self.format_locator(locators.ANSWER, num)
+        return self.get_text_from_element(answer_locator)
+
+    @allure.step('Получение текста заголовка на главной странице')
+    def get_main_header_text(self):
+        return ' '.join(self.find_element(locators.MAIN_PAGE_HEADER).text.split())
+
+    @allure.step('Переход к форме заказа')
+    def go_to_order_page(self):
+        self.click_to_element(locators.HEADER_ORDER_BUTTON)
