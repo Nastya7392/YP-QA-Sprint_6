@@ -22,4 +22,7 @@ class TestMainPage:
     )
     def test_valid_answers_to_question_in_how_it_works_section(self, driver, num, answer_text):
         main_page = MainPage(driver)
-        assert main_page.get_answer_text(num) == answer_text
+        main_page.open_question_answer(num)
+        actual_answer_text = main_page.get_answer_text(num)
+
+        assert actual_answer_text == answer_text

@@ -40,14 +40,18 @@ class OrderPage(BasePage):
         self.click_to_element(locators.RentForm.RENT_PERIOD)
         self.click_to_element(self.format_locator(locators.RentForm.RENT_PERIOD_ITEM, rent_period))
 
-    @allure.step('Заполнение формы "Про аренду"')
+    @allure.step('Выбор черного цвета самоката')
+    def select_black_color(self):
+        self.click_to_element(locators.RentForm.BLACK_COLOR)
+
+    @allure.step('Выбор серого цвета самоката')
+    def select_grey_color(self):
+        self.click_to_element(locators.RentForm.GREY_COLOR)
+
+    @allure.step('Заполнение формы "Про аренду" без выбора цвета')
     def fill_rent_info_form(self, rent_info):
         self.text_input_to_element(locators.RentForm.START_DATE, rent_info['start_date'])
         self.select_rent_period(rent_info['rent_period'])
-        if rent_info['color'] == 'black':
-            self.click_to_element(locators.RentForm.BLACK_COLOR)
-        elif rent_info['color'] == 'grey':
-            self.click_to_element(locators.RentForm.GREY_COLOR)
         self.text_input_to_element(locators.RentForm.COMMENT, rent_info['comment'])
 
     @allure.step('Клик по кнопке "Заказать" на форме "Про аренду"')

@@ -13,12 +13,15 @@ class MainPage(BasePage):
         self.scroll_to_element(locators.SECTION_ORDER_BUTTON)
         self.click_to_element(locators.SECTION_ORDER_BUTTON)
 
-    @allure.step('Получение текста ответа по номеру вопроса')
-    def get_answer_text(self, num):
+    @allure.step('Открытие ответа на вопрос по номеру')
+    def open_question_answer(self, num):
         question_locator = self.format_locator(locators.QUESTION, num)
-        answer_locator = self.format_locator(locators.ANSWER, num)
         self.scroll_to_element(question_locator)
         self.click_to_element(question_locator)
+
+    @allure.step('Получение текста ответа по номеру вопроса')
+    def get_answer_text(self, num):
+        answer_locator = self.format_locator(locators.ANSWER, num)
         return self.get_text_from_element(answer_locator)
 
     @allure.step('Получение текста заголовка на главной странице')

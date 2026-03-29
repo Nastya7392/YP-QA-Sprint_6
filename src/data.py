@@ -1,16 +1,12 @@
 import src.helpers as helpers
 
-# URL главной страницы сервиса
-main_page_url = 'https://qa-scooter.praktikum-services.ru/'
-
 # Информация для проверки функциональности заказа самоката
 order_form_user_info_header_text = 'Для кого самокат'
 order_form_rent_info_header_text = 'Про аренду'
 order_form_finish_header_text = 'Заказ оформлен'
 
 # Информация для проверки редиректа между страницами
-scooter_header = 'Самокат на пару дней'
-dzen_domains = ('dzen.ru', 'ya.ru', 'yandex.ru')
+scooter_header = 'Самокат'
 
 user_info_1 = {
     'first_name': helpers.generate_first_name(),
@@ -23,8 +19,13 @@ user_info_1 = {
 rent_info_1 = {
     'start_date': helpers.generate_rent_date(2),
     'rent_period': 'двое суток',
-    'color': 'grey',
     'comment': 'А серый самокат лучше черного!'
+}
+
+rent_info_1_black = {
+    'start_date': helpers.generate_rent_date(2),
+    'rent_period': 'двое суток',
+    'comment': 'А черный самокат лучше серого!'
 }
 
 user_info_2 = {
@@ -38,8 +39,7 @@ user_info_2 = {
 rent_info_2 = {
     'start_date': helpers.generate_rent_date(3),
     'rent_period': 'трое суток',
-    'color': 'black',
-    'comment': 'А вот и нет, черный цвет лучше!'
+    'comment': 'Возьму серый самокат.'
 }
 
 # Информация об ответах на вопросы в разделе "Вопросы о важном"

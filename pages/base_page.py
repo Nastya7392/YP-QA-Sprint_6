@@ -6,12 +6,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 30)
+        self.wait = WebDriverWait(driver, 20)
 
     @allure.step('Обнаружение элемента страницы')
     def find_element(self, locator):
-        self.wait.until(EC.presence_of_element_located(locator))
-        return self.driver.find_element(*locator)
+        return self.wait.until(EC.presence_of_element_located(locator))
 
     @staticmethod
     @allure.step('Форматирование локатора с подстановкой значения')
@@ -20,8 +19,7 @@ class BasePage:
 
     @allure.step('Клик по элементу страницы')
     def click_to_element(self, locator):
-        self.wait.until(EC.element_to_be_clickable(locator))
-        self.driver.find_element(*locator).click()
+        self.wait.until(EC.element_to_be_clickable(locator)).click()
 
     @allure.step('Ввод текста в поле')
     def text_input_to_element(self, locator, text):
@@ -35,24 +33,13 @@ class BasePage:
 
     @allure.step('Скролл страницы к необходимому элементу')
     def scroll_to_element(self, locator):
-        self.driver.execute_script('arguments[0].scrollIntoView();', self.driver.find_element(*locator))
+        element = self.find_element(locator)
+        self.driver.execute_script("arguments[0].scrollIntoView();", element)
 
-    @allure.step('Переключение на новую вкладку')
-    def switch_to_new_tab(self, tabs_count_before_click):
-        self.wait.until(lambda driver: len(driver.window_handles) > tabs_count_before_click)
-        self.driver.switch_to.window(self.driver.window_handles[-1])
+    @allure.step('Ожидание URL, содержащего "{value}"')
+    def wait_for_url_contains(self, value):
+        return self.wait.until(EC.url_contains(value))
 
-    @allure.step('Ожидание перехода на внешний сервис')
-    def wait_for_external_url(self, domains, timeout=60):
-        wait = WebDriverWait(self.driver, timeout)
-
-        def _predicate(driver):
-            current_url = (driver.current_url or '').lower()
-            title = (driver.title or '').lower()
-            if any(domain.lower() in current_url for domain in domains):
-                return True
-            if 'dzen' in title or 'дзен' in title:
-                return True
-            return len(driver.window_handles) > 1 and current_url not in ('', 'about:blank') and 'qa-scooter.praktikum-services.ru' not in current_url
-
-        return wait.until(_predicate)
+    @allure.step('Переключение на вкладку с индексом {tab_number}')
+    def change_browser_tab(self, tab_number):
+        self.driver.switch_to.window(self.driver.window_handles[tab_number])
